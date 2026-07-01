@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 class Post(models.Model):
     titulo = models.CharField(max_length=200)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     slug = models.SlugField(unique=True)
     contenido = models.TextField()
     fecha_creacion = models.DateTimeField(default=timezone.now)
