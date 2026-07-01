@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
 from .forms import PostForm
+from .forms import PostForm, PerfilForm
+from .models import Post, Perfil
 
 def lista_posts(request):
     posts = Post.objects.filter(publicado=True).order_by('-fecha_creacion')
@@ -51,3 +53,15 @@ def editar_post(request, slug):
     else:
         form = PostForm(instance=post)
     return render(request, 'posts/form_post.html', {'form': form, 'titulo_pagina': 'Editar post'})
+@login_required
+def perfil(request):
+    perfil, creado = Perfil.objects.get_or_create(usuario=request.user)
+    if request.method == 'POST':
+        form = PerfilForm(request.POST, instance=perfil)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Perfil actualizado.')
+            return redirect('perfil')
+    else:
+        form = PerfilForm(instance=perfil)
+    return render(request, 'posts/perfil.html', {'form': form})
