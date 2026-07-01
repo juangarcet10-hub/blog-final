@@ -1,7 +1,11 @@
+{% extends 'posts/base.html' %}
+
+{% block content %}
 <h1>Registrarse</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Crear cuenta</button>
+    <button type="submit" class="btn btn-primary">Crear cuenta</button>
 </form>
-<a href="{% url 'lista_posts' %}">Volver al inicio</a>
+<a href="{% url 'login' %}">¿Ya tenés cuenta? Iniciá sesión</a>
+{% endblock %}
